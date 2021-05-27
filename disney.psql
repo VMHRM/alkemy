@@ -1,0 +1,33 @@
+--
+-- PostgreSQL Disney database
+--
+
+DROP TABLE IF EXISTS characters, movies;
+
+CREATE TABLE movies (
+    movie_id INT GENERATED ALWAYS AS IDENTITY,
+    movie_title VARCHAR,
+    movie_year INT,
+    movie_rate INTEGER CHECK (movie_rate <= 5),
+    PRIMARY KEY(movie_id)
+);
+
+CREATE TABLE characters(
+    character_id INT GENERATED ALWAYS AS IDENTITY,
+    character_name VARCHAR,
+    character_age INTEGER,
+    movie_id INT,
+    PRIMARY KEY(character_id),
+    CONSTRAINT fk_movie
+      FOREIGN KEY(movie_id) 
+	  REFERENCES movies(movie_id)
+	  ON DELETE SET NULL
+);
+
+INSERT INTO movies (movie_title, movie_year, movie_rate)
+    VALUES ('Beauty and Beast: Live Action', 2017, 4);
+
+INSERT INTO characters (character_name, character_age, movie_id)
+    VALUES  ('Belle',17,1),
+            ('Beast', 100,1);
+
